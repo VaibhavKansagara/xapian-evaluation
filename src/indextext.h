@@ -26,6 +26,7 @@
 #define _INDEXTEXT_H_
 
 #include <xapian.h>
+#include <xapian-letor.h>
 
 #include <limits.h>
 #include <ctype.h>

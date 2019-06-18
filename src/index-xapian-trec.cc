@@ -7,6 +7,7 @@
 */
 
 #include <xapian.h>
+#include <xapian-letor.h>
 #include <iostream>
 #include <fstream>
 #include <string>

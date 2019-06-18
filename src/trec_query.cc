@@ -22,6 +22,8 @@
 
 
 #include <xapian.h>
+#include <xapian-letor.h>
+
 #include <algorithm>
 #include <iostream>
 #include <string>

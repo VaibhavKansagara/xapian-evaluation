@@ -26,6 +26,7 @@
 #include "config_file.h"
 #include <fstream>
 #include <xapian.h>
+#include <xapian-letor.h>
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -100,7 +101,7 @@ int main(int argc, char **argv)
     struct timeval start_time, finish_time, timelapse;   /* timing variables */
 			
     // Make the database
-    Xapian::Database db(config.get_db().c_str());
+    Xapian::Database db(config.get_db());
 
     // Start an enquire session
     Xapian::Enquire enquire(db);
@@ -176,8 +177,28 @@ int main(int argc, char **argv)
 		else {
 			enquire.set_weighting_scheme(Xapian::BM25PlusWeight());		   }
 	}
+	else if (config.use_weightingscheme("learningtorank")) {
+		enquire.set_weighting_scheme(Xapian::BM25Weight());
+	}
 	// Get the top n results of the query
 	Xapian::MSet matches = enquire.get_mset( 0, config.get_noresults() );
+
+	if (config.use_weightingscheme("learningtorank")) {
+		Xapian::prepare_training_file(config.get_db(), config.get_queryfile(),
+									  config.get_relfile(), config.get_noresults(),
+									  config.get_trainingfile());
+		// Initialise Ranker object with ListNETRanker instance, db path and query.
+		// See Ranker documentation for available Ranker subclass options.
+		Xapian::ListNETRanker ranker;
+		string path = config.get_db();
+		ranker.set_database_path(path);
+		ranker.set_query(query);
+		ranker.train_model(config.get_trainingfile());
+		// Re-rank the existing mset using the letor model.
+		ranker.rank(matches,"ListNet_Ranker");
+		ranker.score(config.get_queryfile(), config.get_relfile(),
+						"ListNet_Ranker", "ndcg_output_ListNet.txt", config.get_noresults());
+	}
 								
 	// record the number of matches made in this query
 	//int queryweightings = enquire.get_totalweightings();

@@ -45,6 +45,7 @@ private:
 	float const_b;       // value for B constant (BM25)
 	string topicfile;    // path/filename of topic file
 	string topicfields;  // fields of topic to use from topic file
+	string trainingfile; // training file for letor
 	string relfile;      // path/filename of relevance judgements file
 	string runname;      // name of the run
 	int nterms;          // no of terms to pick from the topic
@@ -108,6 +109,7 @@ public:
 	string get_queryfile() { return queryfile; }
 	string get_resultsfile() { return resultsfile; }
 	string get_transfile() { return transfile; }
+	string get_trainingfile() { return trainingfile; }
 	int get_noresults() { return noresults; }
 	float get_const_k1() { return const_k1; }
 	float get_const_b() { return const_b; }

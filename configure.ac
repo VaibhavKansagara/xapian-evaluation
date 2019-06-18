@@ -43,7 +43,7 @@ dnl Enable large file support if possible.
 AC_SYS_LARGEFILE
 
 dnl Check for xapian-core.
-XO_LIB_XAPIAN([], [], [xapian-config])
+XO_LIB_XAPIANLETOR([], [], [xapianletor-config])
 
 dnl We want XAPIAN_CXXFLAGS to be used for configure tests.
 save_CXXFLAGS=$CXXFLAGS

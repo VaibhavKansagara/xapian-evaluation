@@ -88,6 +88,10 @@ void CONFIG_TREC::record_tag( string config_tag, string config_value ) {
     topicfields = config_value;
     found = 1;
   } // END if
+  if( config_tag == "trainingfile" ) {
+    trainingfile = config_value;
+    found = 1;
+  } // END if
   if( config_tag == "relfile" ) {
     relfile = config_value;
     found = 1;
